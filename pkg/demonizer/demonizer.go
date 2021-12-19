@@ -10,7 +10,6 @@ import (
 )
 
 const BLOCK_ENV_VAR = "BLOCK_ENV_VAR"
-const DEMONIZED_PID = "DEMONIZED_PID"
 
 //Creates new d-process using
 //passed command
@@ -22,6 +21,7 @@ func DemonizeProcess(command string, args ...string) {
 		if err := cmd.Start(); err != nil {
 			logrus.Fatal()
 		}
+
 		os.Exit(0)
 	}
 	syscall.Umask(022)
@@ -41,5 +41,5 @@ func DemonizeProcess(command string, args ...string) {
 
 //Demonizes this executable process
 func DemonizeThisProcess() {
-	DemonizeProcess(os.Args[0])
+	DemonizeProcess(os.Args[0], os.Args[0:]...)
 }
